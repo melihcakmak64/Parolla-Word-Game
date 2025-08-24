@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
-import 'package:parolla/model/QuestionModel.dart';
+import 'package:parolla/model/question_model.dart';
 
 class HomeController extends GetxController {
   var currentQuestionIndex = 0.obs;
@@ -22,9 +22,9 @@ class HomeController extends GetxController {
     scrollController = ScrollController();
     textController = TextEditingController();
     focusNode = FocusNode();
-    answeredQuestions.value = List.filled(questionList.length, false); // Başlangıçta tüm sorular yanlış
+    answeredQuestions.value = List.filled(
+        questionList.length, false); // Başlangıçta tüm sorular yanlış
     startTimer();
-    scrollToCenter();
   }
 
   void startTimer() {
@@ -50,7 +50,8 @@ class HomeController extends GetxController {
   }
 
   void checkAnswer(String answer) {
-    if (answer.toLowerCase() == questionList[currentQuestionIndex.value].answer.toLowerCase()) {
+    if (answer.toLowerCase() ==
+        questionList[currentQuestionIndex.value].answer.toLowerCase()) {
       totalScore.value += 10; // Doğru cevap için puan ekle
       answeredQuestions[currentQuestionIndex.value] = true; // Doğru işaretle
     } else {
@@ -82,12 +83,14 @@ class HomeController extends GetxController {
   }
 
   void showResultDialog() {
-    int correctAnswers = answeredQuestions.where((isCorrect) => isCorrect).length;
+    int correctAnswers =
+        answeredQuestions.where((isCorrect) => isCorrect).length;
     int totalQuestions = answeredQuestions.length;
 
     Get.defaultDialog(
       title: "Oyun Bitti",
-      middleText: "Doğru Cevaplar: $correctAnswers/$totalQuestions\nToplam Puan: ${totalScore.value}",
+      middleText:
+          "Doğru Cevaplar: $correctAnswers/$totalQuestions\nToplam Puan: ${totalScore.value}",
       textConfirm: "Tekrar Oyna",
       onConfirm: () {
         resetGame();

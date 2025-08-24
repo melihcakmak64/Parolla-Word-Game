@@ -5,6 +5,7 @@ import 'package:parolla/model/question_model.dart';
 import 'package:parolla/theme/app_colors.dart';
 import 'package:parolla/view/widgets/custom_app_bar.dart';
 import 'package:parolla/view/widgets/custom_text_field.dart';
+import 'package:parolla/view/widgets/game_end_bottomsheet.dart';
 import 'package:parolla/view/widgets/letter_box_widget.dart';
 import 'package:parolla/view/widgets/progress_box.dart';
 
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ever(controller.currentQuestionIndex, (_) {
       controller.scrollToCenter();
     });
+
     super.initState();
   }
 

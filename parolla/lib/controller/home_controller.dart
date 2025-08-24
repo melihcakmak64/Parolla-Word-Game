@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'dart:async';
 
 import 'package:parolla/model/question_model.dart';
+import 'package:parolla/view/widgets/game_end_bottomsheet.dart';
 
 class HomeController extends GetxController {
   var currentQuestionIndex = 0.obs;
@@ -33,7 +34,7 @@ class HomeController extends GetxController {
         remainingSeconds.value--;
       } else {
         timer.cancel();
-        showTimeUpDialog();
+        showResultDialog();
       }
     });
   }
@@ -70,32 +71,21 @@ class HomeController extends GetxController {
     }
   }
 
-  void showTimeUpDialog() {
-    Get.defaultDialog(
-      title: "Zaman Bitti",
-      middleText: "Zamanınız doldu!",
-      textConfirm: "Sonuçları Gör",
-      onConfirm: () {
-        timer.cancel();
-        showResultDialog();
-      },
-    );
-  }
-
   void showResultDialog() {
     int correctAnswers =
         answeredQuestions.where((isCorrect) => isCorrect).length;
     int totalQuestions = answeredQuestions.length;
 
-    Get.defaultDialog(
-      title: "Oyun Bitti",
-      middleText:
-          "Doğru Cevaplar: $correctAnswers/$totalQuestions\nToplam Puan: ${totalScore.value}",
-      textConfirm: "Tekrar Oyna",
-      onConfirm: () {
-        resetGame();
-        Get.back();
-      },
+    Get.bottomSheet(
+      GameEndBottomsheet(
+          correctAnswer: correctAnswers,
+          totalQuestions: totalQuestions,
+          pointsPerQuesetion: 10,
+          onPlayAgain: () {
+            resetGame();
+            Get.back();
+          }),
+      isScrollControlled: false,
     );
   }
 

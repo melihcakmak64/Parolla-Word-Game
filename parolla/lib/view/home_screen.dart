@@ -23,7 +23,23 @@ class _HomeScreenState extends State<HomeScreen> {
     ever(controller.currentQuestionIndex, (_) {
       controller.scrollToCenter();
     });
-
+    ever(controller.isGameEnded, (_) {
+      if (controller.isGameEnded.value == false) return;
+      final totalQuestions = controller.answeredQuestions.length;
+      final correctAnswers =
+          controller.answeredQuestions.where((isCorrect) => isCorrect).length;
+      final totalScore = controller.totalScore.value;
+      Get.bottomSheet(
+          GameEndBottomsheet(
+              correctAnswer: correctAnswers,
+              totalQuestions: totalQuestions,
+              totalScore: totalScore,
+              onPlayAgain: () {
+                controller.resetGame();
+                Get.back();
+              }),
+          isScrollControlled: false);
+    });
     super.initState();
   }
 

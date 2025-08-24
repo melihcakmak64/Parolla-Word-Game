@@ -10,6 +10,7 @@ class HomeController extends GetxController {
   var remainingSeconds = 180.obs;
   var totalScore = 0.obs; // Toplam puan
   var answeredQuestions = <bool>[].obs; // Soruların doğru/yanlış durumu
+  var isGameEnded = false.obs;
   late Timer timer;
   late ScrollController scrollController;
   late TextEditingController textController;
@@ -34,7 +35,7 @@ class HomeController extends GetxController {
         remainingSeconds.value--;
       } else {
         timer.cancel();
-        showResultDialog();
+        isGameEnded.value = true;
       }
     });
   }
@@ -67,29 +68,13 @@ class HomeController extends GetxController {
       focusNode.requestFocus();
     } else {
       timer.cancel();
-      showResultDialog(); // Oyun bitince sonucu göster
+      isGameEnded.value = true;
+      // Oyun bitince sonucu göster
     }
   }
 
-  void showResultDialog() {
-    int correctAnswers =
-        answeredQuestions.where((isCorrect) => isCorrect).length;
-    int totalQuestions = answeredQuestions.length;
-
-    Get.bottomSheet(
-      GameEndBottomsheet(
-          correctAnswer: correctAnswers,
-          totalQuestions: totalQuestions,
-          pointsPerQuesetion: 10,
-          onPlayAgain: () {
-            resetGame();
-            Get.back();
-          }),
-      isScrollControlled: false,
-    );
-  }
-
   void resetGame() {
+    isGameEnded.value = false;
     currentQuestionIndex.value = 0;
     remainingSeconds.value = 180;
     totalScore.value = 0;

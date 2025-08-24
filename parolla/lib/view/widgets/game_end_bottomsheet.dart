@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class GameEndBottomsheet extends StatelessWidget {
   final int correctAnswer;
   final int totalQuestions;
-  final int pointsPerQuesetion;
+  final int totalScore;
   final VoidCallback onPlayAgain;
   const GameEndBottomsheet(
       {super.key,
       required this.correctAnswer,
       required this.totalQuestions,
-      required this.pointsPerQuesetion,
+      required this.totalScore,
       required this.onPlayAgain});
 
   @override
@@ -65,8 +65,7 @@ class GameEndBottomsheet extends StatelessWidget {
               children: [
                 _buildStatRow(
                     "Correct Answers", "$correctAnswer/$totalQuestions"),
-                _buildStatRow(
-                    "Total Score", "${pointsPerQuesetion * correctAnswer}"),
+                _buildStatRow("Total Score", "$totalScore"),
               ],
             ),
           ),
